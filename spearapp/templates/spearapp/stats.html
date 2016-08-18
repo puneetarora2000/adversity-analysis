@@ -1,0 +1,378 @@
+{% extends "base.html" %}
+{% block content %}
+   <h3 class="text-center">Spear Phishing   Analysis  </h3>
+
+<input id="attack_methods" type="hidden" value="{{incidence_stats}}">
+<input id="attack_origins" type="hidden" value="{{Attackorigincountry_stats}}">
+<input id="attack_targets" type="hidden" value="{{Attacktargetcountry_stats}}">
+<input id="attack_tld" type="hidden" value="{{Attack_Top_Level_Domain_stats}}">
+<input id="attack_industry" type="hidden" value="{{Attacktargetindustry_stats}}">
+<input id="attack_aim" type="hidden" value="{{Aim_Ofthe_Attack_stats}}">
+<input id="attack_brand" type="hidden" value="{{Attacktargetbrand_stats}}">
+
+<p>---</p>
+<div id="Attackorigincountry_stats_div" class="graph"></div>
+
+<div id="Attacktargetcountry_stats_div" class="graph"></div>
+<div id="chart_div" align="center" class="graph"></div>
+<div id="tld_stats_div" class="graph" ></div>
+<div id="industry_stats_div" class="graph"></div>
+<div id="aim_stats_div" class="graph" ></div>
+<div id="brand_stats_div" class="graph"></div>
+
+
+
+<!--{{Attacktargetcountry_stats}}-->
+<!--{{incidence_stats}}
+Attack_Top_Level_Domain_stats
+Attacktargetindustry_stats
+Aim_Ofthe_Attack_stats
+Attacktargetbrand_stats
+-->
+<!--<table class="table table-striped">
+    <h3 class="text-center">Stats</h3>
+    <thead>
+        <tr>
+            <th>Name of The Table </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subject in incidence_stats %}
+        <tr>
+            <td>{{subject}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div>-->
+
+<script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var attack_methods = JSON.parse(document.getElementById('attack_methods').value);
+      attack_method_data = [['Attack Method', 'Frequency']];
+         var sum = 0;
+      var std = 0;
+      var  avg = 0;
+      attack_methods.forEach(function(a) {
+          attack_method_data.push([a.Spear_Attack_Method__AttackMethod, a.attackcount]);
+          sum = sum+a.attackcount;
+          avg =   sum/attack_method_data.length;
+          std =     Math.pow((a.attackcount-avg),2);
+      });
+      var data = google.visualization.arrayToDataTable(attack_method_data);
+
+
+      var options = {
+        title: 'Spear Phishing Attack Methods Analysis \n Total='+sum+', Avg='+avg+',var='+std,
+        colors: ['red','green'],
+        displayAnnotations: true,
+        chartArea: {width: '70%'},
+        vAxis: {
+          title: 'Types of Spear Phishing attacks',
+          textPosition: "out",
+          textStyle: {
+             fontSize:10
+                  },
+          minValue: 0
+        },
+        textStyle: {
+            bold: true,
+            fontSize: 12,
+            color: '#4d4d4d'
+          },
+          titleTextStyle: {
+            bold: true,
+            fontSize: 18,
+            color: '#4d4d4d'
+          },
+        hAxis: {
+          title: 'Frequency Value'
+        }
+      };
+      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+      // Instantiate and draw the chart.
+      //var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+      console.log(JSON.parse(document.getElementById('attack_methods').value));
+    }
+  </script>
+
+
+<script type="text/javascript">
+
+    google.charts.setOnLoadCallback(drawChartOrgin);
+
+    function drawChartOrgin() {
+      var attack_methods = JSON.parse(document.getElementById('attack_origins').value);
+      attack_method_data = [['Attack Origins', 'Frequency']];
+        var sum = 0;
+      var std = 0;
+      var  avg = 0;
+      attack_methods.forEach(function(a) {
+          attack_method_data.push([a.Attackorigincountry__Origin_Country_Attacker, a.attackcount]);
+          sum = sum+a.attackcount;
+          avg =   sum/attack_method_data.length;
+          std =     Math.pow((a.attackcount-avg),2);
+      });
+      var data = google.visualization.arrayToDataTable(attack_method_data);
+
+
+      var options = {
+        title: 'Spear Phising Attack Origin Analysis \n Total='+sum+', Avg='+avg+',var='+std,
+        colors: ['green','red'],
+         chartArea: {width: '70%'},
+        textStyle: {
+            bold: true,
+            fontSize: 14,
+            color: '#4d4d4d'
+          },
+          titleTextStyle: {
+            bold: true,
+            fontSize: 18,
+            color: '#4d4d4d'
+          },
+        hAxis: {
+          title: 'Frequency Value',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Origin of Spear Phishing Attack Country',
+            textStyle: {
+             fontSize:10
+                  },
+        }
+      };
+      var chart = new google.visualization.BarChart(document.getElementById('Attackorigincountry_stats_div'));
+
+      // Instantiate and draw the chart.
+      //var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+      console.log(JSON.parse(document.getElementById('attack_origins').value));
+    }
+  </script>
+
+<script type="text/javascript">
+
+    google.charts.setOnLoadCallback(drawChartTarget);
+
+    function drawChartTarget() {
+      var attack_methods = JSON.parse(document.getElementById('attack_targets').value);
+      attack_method_data = [['Attack Origins', 'Frequency', { role: 'annotation' }]];
+
+      var sum = 0;
+      var std = 0;
+      var  avg = 0;
+
+
+      attack_methods.forEach(function(a) {
+          attack_method_data.push([a.Attacktargetcountry__Country_Under_Attack, a.attackcount, a.attackcount]);
+          sum = sum+a.attackcount;
+          avg =   sum/attack_method_data.length;
+          std =     Math.pow((a.attackcount-avg),2);
+
+      });
+
+
+
+      var data = google.visualization.arrayToDataTable(attack_method_data);
+
+
+      var options = {
+        title: 'Countries Under Spear Phishing Attack \n Total='+sum+', Avg='+avg+',var='+std,
+        colors: ['black','red'],
+        chartArea: {width: '70%'},
+        hAxis: {
+          title: 'Frequency Value',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Spear Phishing Targets Countries',
+            textStyle: {
+             fontSize:10
+                  }
+        }
+      };
+      var chart = new google.visualization.BarChart(document.getElementById('Attacktargetcountry_stats_div'));
+
+      // Instantiate and draw the chart.
+      //var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+      console.log(JSON.parse(document.getElementById('attack_targets').value));
+    }
+  </script>
+
+
+
+<script type="text/javascript">
+
+    google.charts.setOnLoadCallback(drawChartTLD);
+
+    function drawChartTLD() {
+      var attack_methods = JSON.parse(document.getElementById('attack_tld').value);
+      attack_method_data = [['Domains Under Attack', 'Frequency']];
+
+      var sum=0;
+      var avg =0;
+      var std=0;
+
+      attack_methods.forEach(function(a) {
+          attack_method_data.push([a.Attack_Top_Level_Domain__TopeLevelDomain_Name, a.attackcount]);
+          sum = sum+a.attackcount;
+          avg =   sum/attack_method_data.length;
+          std =     Math.pow((a.attackcount-avg),2);
+
+      });
+      var data = google.visualization.arrayToDataTable(attack_method_data);
+
+
+      var options = {
+        title: 'Domains Under Spear Phishing Attack \n Total='+sum+', Avg='+avg+',var='+std,
+        colors: ['gray','red'],
+        chartArea: {width: '70%'},
+        hAxis: {
+          title: 'Frequency Value',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Spear Phishing Targets Domains',
+          textStyle: {
+             fontSize:10
+                  }
+        }
+      };
+      var chart = new google.visualization.BarChart(document.getElementById('tld_stats_div'));
+      chart.draw(data, options);
+      console.log(JSON.parse(document.getElementById('attack_tld').value));
+    }
+  </script>
+
+
+<script type="text/javascript">
+
+    google.charts.setOnLoadCallback(drawChartIndustry);
+
+    function drawChartIndustry() {
+      var attack_methods = JSON.parse(document.getElementById('attack_industry').value);
+      attack_method_data = [['Types of Industries Under Attack', 'Frequency']];
+
+       var sum=0;
+      var avg =0;
+      var std=0;
+      attack_methods.forEach(function(a) {
+          attack_method_data.push([a.Attacktargetindustry__Industry_Name, a.attackcount]);
+          sum = sum+a.attackcount;
+          avg =   sum/attack_method_data.length;
+          std =     Math.pow((a.attackcount-avg),2);
+      });
+      var data = google.visualization.arrayToDataTable(attack_method_data);
+
+
+      var options = {
+        title: 'Types of Industries Under Spear Phishing Attack \n Total='+sum+', Avg='+avg+',var='+std,
+        colors: ['yellow','red'],
+        chartArea: {width: '70%'},
+        hAxis: {
+          title: 'Frequency Values',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Spear Phishing Targets Industry Types',
+          textStyle: {
+             fontSize:9
+                  } 
+        }
+      };
+      var chart = new google.visualization.BarChart(document.getElementById('industry_stats_div'));
+      chart.draw(data, options);
+      console.log(JSON.parse(document.getElementById('attack_industry').value));
+    }
+  </script>
+
+<script type="text/javascript">
+
+    google.charts.setOnLoadCallback(drawAttackAim);
+
+    function drawAttackAim() {
+      var attack_methods = JSON.parse(document.getElementById('attack_aim').value);
+      attack_method_data = [['Aims of Spear Phishing Attacks', 'Frequency']];
+
+      var sum=0;
+      var avg =0;
+      var std=0;
+      attack_methods.forEach(function(a) {
+          attack_method_data.push([a.Aim_Ofthe_Attack__AttackAim, a.attackcount]);
+           sum = sum+a.attackcount;
+          avg =   sum/attack_method_data.length;
+          std =     Math.pow((a.attackcount-avg),2);
+      });
+      var data = google.visualization.arrayToDataTable(attack_method_data);
+
+
+      var options = {
+        title: 'Aims of  Spear Phishing Attackers \n Total='+sum+', Avg='+avg+',var='+std,
+        color: ['purple', '#747c1f','yellow', 'red'],
+        chartArea: {width: '70%'},
+        hAxis: {
+          title: 'Frequency Values',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Aims of Spear Phishing Attackers ',
+          textStyle: {
+             fontSize:10
+                  }
+        }
+      };
+      var chart = new google.visualization.BarChart(document.getElementById('aim_stats_div'));
+      chart.draw(data, options);
+      console.log(JSON.parse(document.getElementById('attack_aim').value));
+    }
+  </script>
+
+<script type="text/javascript">
+
+    google.charts.setOnLoadCallback(drawBrand);
+
+    function drawBrand() {
+      var attack_methods = JSON.parse(document.getElementById('attack_brand').value);
+      attack_method_data = [['Brands/Organisations Under Spear Phishing Attacks', 'Frequency']];
+        var sum=0;
+      var avg =0;
+      var std=0;
+      attack_methods.forEach(function(a) {
+          attack_method_data.push([a.Attacktargetbrand, a.attackcount]);
+            sum = sum+a.attackcount;
+          avg =   sum/attack_method_data.length;
+          std =     Math.pow((a.attackcount-avg),2);
+      });
+
+      var data = google.visualization.arrayToDataTable(attack_method_data);
+
+
+      var options = {
+        title: 'Brands/Organisations Under  Spear Phishing Attacks \n Total='+sum+', Avg='+avg+',var='+std,
+        color: ['gray','blue'],
+        chartArea: {width: '70%'},
+        hAxis: {
+          title: 'Frequency Values',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Brands Under Spear Phishing Attacker',
+          textStyle: {
+             fontSize:10
+                  }
+        }
+      };
+      var chart = new google.visualization.BarChart(document.getElementById('brand_stats_div'));
+      chart.draw(data, options);
+      console.log(JSON.parse(document.getElementById('attack_brand').value));
+    }
+  </script>
+
+
+{% endblock %}

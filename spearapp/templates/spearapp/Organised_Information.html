@@ -1,0 +1,67 @@
+ {% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <h3 class="text-center">Organised_Information Dilman Form </h3>
+    <ul class="list-group">
+        {% for Organised_Information in gui_values %}
+          <div class="bs-callout bs-callout-{{callout_list|random}}">
+                <div class="panel-body">
+                    <div class="panel-info">
+                        <h4><strong>{{ Organised_Information.id }}</strong></h4>
+                        <p>{{ Organised_Information.SpearPhishingIncidencenumber }}</p>
+                        <p>{{ Organised_Information.IncidenceDescription }}</p>
+                        <p>{{ Organised_Information.MoreInfor }}</p>
+                        <p>{{ Organised_Information.EntryDateofAddition }}</p>
+                        <p>{{ Organised_Information.SubjectID }}</p>
+                        <p>{{ Organised_Information.LastUpdate }}</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="row text-right">
+    <nav>
+    <ul class="pagination pagination-lg">
+        <li class="page-item">
+            {% if Organised_Informations.has_previous %}
+            <a class="page-link" href="?page={{ Organised_Information.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+            {% endif %}
+        </li>
+        {% with pages_max=Organised_Informations.number|add:"2" pages_min=Organised_Informations.number|add:"-2" %}
+        {% for page in Organised_Informations.paginator.page_range %}
+            {% if page < pages_max and page > pages_min and page != Organised_Informations.number %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page }}">
+                    {{ page }}
+                  </a>
+                </li>
+            {% elif page == Organised_Informations.number %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page }}">
+                    {{ page }}
+                  </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% endwith %}
+         <li class="page-item">
+             {% if Organised_Informations.has_next %}
+             <a class="page-link" href="?page={{ Organised_Informations.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+             {% endif %}
+        </li>
+    </ul>
+    </nav>
+</div>
+
+{% endblock %}
+
+

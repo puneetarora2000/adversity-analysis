@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<table class="table table-striped">
+    <h3 class="text-center">Subjects</h3>
+    <thead>
+        <tr>
+            <th>Name of the Subject</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subject in subjects %}
+        <tr>
+            <td>{{subject}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table class="table table-striped">
+    <h3 class="text-center">Information Sources</h3>
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for informationsource in informationsources %}
+        <tr>
+            <td>{{informationsource}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table class="table table-striped">
+    <h3 class="text-center">Organised Information</h3>
+    <thead>
+        <tr>
+            <th>Spearphishing Incidence No.</th>
+            <th>More Information</th>
+            <th>Incidence Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for organisedinformation in organisedinformations %}
+        <tr>
+            <td>{{organisedinformation.SpearPhishingIncidencenumber}}</td>
+            <td>{{organisedinformation.MoreInfor}}</td>
+            <td>{{organisedinformation.IncidenceDescription}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
